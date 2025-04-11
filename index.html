@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدردشة</title>
+    <script src="https://unpkg.com/react@19/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@19/umd/react-dom.development.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .messages {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .message {
+            background: #e9ecef;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0b5ed7;
+        }
+        .login-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1 style="text-align: center;">الدردشة</h1>
+        
+        <!-- نموذج تسجيل الدخول -->
+        <div class="login-form">
+            <input type="email" id="email" placeholder="البريد الإلكتروني" style="margin-bottom: 10px;">
+            <br>
+            <input type="password" id="password" placeholder="كلمة المرور" style="margin-bottom: 10px;">
+            <br>
+            <button onclick="login()">تسجيل الدخول</button>
+        </div>
+
+        <!-- منطقة الدردشة -->
+        <div id="chatArea" style="display: none;">
+            <div class="messages" id="messages"></div>
+            <div class="input-container">
+                <input type="text" id="messageInput" placeholder="اكتب رسالة...">
+                <button onclick="sendMessage()">إرسال</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // محاكاة نظام المصادقة البسيط
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (email && password) {
+                document.querySelector('.login-form').style.display = 'none';
+                document.getElementById('chatArea').style.display = 'block';
+                alert('تم تسجيل الدخول بنجاح');
+            } else {
+                alert('الرجاء إدخال البريد الإلكتروني وكلمة المرور');
+            }
+        }
+
+        // إرسال رسالة
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value;
+            
+            if (message.trim()) {
+                const messagesContainer = document.getElementById('messages');
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message';
+                messageElement.textContent = message;
+                messagesContainer.appendChild(messageElement);
+                
+                // تمرير إلى آخر رسالة
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // مسح حقل الإدخال
+                messageInput.value = '';
+            }
+        }
+
+        // إضافة استماع لمفتاح Enter
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
